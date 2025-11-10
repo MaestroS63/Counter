@@ -6,19 +6,18 @@ public class Counter : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI counterText;
 
-    private int counter = 0;
-    private bool isCounting = false;
+    private WaitForSeconds waitInterval;
     private Coroutine countCoroutine;
 
-    private void Update()
+    private int counter = 0;
+    private bool isCounting = false;
+
+    private void Awake()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            ToggleCounter();
-        }
+        waitInterval = new WaitForSeconds(0.5f);
     }
 
-    private void ToggleCounter()
+    public void ToggleCounter()
     {
         if (isCounting)
         {
@@ -34,11 +33,11 @@ public class Counter : MonoBehaviour
 
     private IEnumerator CountRoutine()
     {
-        while (true)
+        while (enabled)
         {
             counter++;
             counterText.text = counter.ToString();
-            yield return new WaitForSeconds(0.5f);
+            yield return waitInterval;
         }
     }
 }
